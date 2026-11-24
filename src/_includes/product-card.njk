@@ -1,10 +1,13 @@
-<li class="card">
-  <a href="{{ p.url }}">
-    <div class="card-img">{% img p.data.image, p.data.title, "(min-width: 900px) 25vw, 50vw" %}
-      {% set off = p.data.price | discount(p.data.mrp) %}{% if off %}<span class="badge">{{ off }}% off</span>{% endif %}
-      {% if not p.data.inStock %}<span class="badge badge-out">Sold out</span>{% endif %}
-    </div>
-    <h3>{{ p.data.title }}</h3>
-    <p class="price">{{ p.data.price | inr }}{% if p.data.mrp > p.data.price %} <s>{{ p.data.mrp | inr }}</s>{% endif %}</p>
-  </a>
+{%- set off = p.data.price | discount(p.data.mrp) %}
+<li class="pcard" data-price="{{ p.data.price }}" data-order="{{ p.data.order or 99 }}" data-off="{{ off }}" data-stock="{{ 1 if p.data.inStock else 0 }}" data-coll="{{ p.data.collection }}" data-date="{{ p.date | isoDate }}">
+  <a class="pcard-img" href="{{ p.url }}" tabindex="-1" aria-hidden="true">{% img p.data.image, "", "(min-width: 900px) 240px, 50vw" %}{% if off >= 10 %}<span class="deal-tag">{{ off }}% off</span>{% endif %}</a>
+  <div class="pcard-body">
+    {% if p.data.brand %}<span class="pcard-brand">{{ p.data.brand }}</span>{% endif %}
+    <a class="pcard-title" href="{{ p.url }}">{{ p.data.title }}</a>
+    {% if off >= 10 %}<span class="deal-pill">Limited time deal</span>{% endif %}
+    <div class="pprice"><span class="pp-now"><sup>₹</sup>{{ p.data.price | inr | replace("₹","") }}</span>{% if off %} <span class="pp-mrp">M.R.P: <s>{{ p.data.mrp | inr }}</s></span> <span class="pp-off">({{ off }}% off)</span>{% endif %}</div>
+    {% if not p.data.inStock %}<p class="pcard-out">Currently unavailable</p>
+    {% else %}<p class="pcard-ship">{% if shipping.freeAbove and p.data.price >= shipping.freeAbove %}<b>FREE delivery</b>{% else %}Delivery {{ shipping.defaultRate | inr }}{% if shipping.freeAbove %} · free above {{ shipping.freeAbove | inr }}{% endif %}{% endif %}</p>
+    {% if p.data.colours and p.data.colours.length > 1 %}<a class="btn-cart" href="{{ p.url }}">See options</a>{% else %}<button class="btn-cart" type="button" data-add="{{ p.fileSlug }}" data-colour="{{ p.data.colours[0] if p.data.colours else '' }}">Add to cart</button>{% endif %}{% endif %}
+  </div>
 </li>

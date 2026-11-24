@@ -47,59 +47,81 @@
 </script>
 {% endblock %}
 {% block content %}
-<div class="wrap">
-  {% set crumbColl = collections.shopCollections | findBySlug(collection) %}<nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> / {% if crumbColl %}<a href="{{ crumbColl.url }}">{{ crumbColl.data.title }}</a>{% else %}<a href="/shop/">Shop</a>{% endif %} / <span>{{ title }}</span></nav>
-  <div class="product">
-    <div class="gallery">
-      <div class="main-img">{% img image, title, "(min-width: 900px) 50vw, 100vw", "", true %}</div>
-      {% if gallery and gallery.length %}<div class="thumbs">{% for g in gallery %}{% img g, title + " photo " + (loop.index + 1), "(min-width: 900px) 25vw, 50vw" %}{% endfor %}</div>{% endif %}
+{%- set coll = collections.shopCollections | findBySlug(collection) %}
+{%- set off = price | discount(mrp) %}
+{%- set pics = image | allImages(gallery) %}
+<div class="wrap pdp" data-product="{{ page.fileSlug }}">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> › {% if coll %}<a href="{{ coll.url }}">{{ coll.data.title }}</a>{% else %}<a href="/shop/">Shop</a>{% endif %} › <span>{{ title }}</span></nav>
+  <div class="pdp-grid">
+    <div class="pdp-gallery" data-gallery>
+      <div class="pdp-thumbs" role="tablist" aria-label="Photos">{% asyncEach im in pics %}<button type="button" class="{{ 'on' if loop.first }}" data-thumb="{{ loop.index0 }}" aria-label="Photo {{ loop.index }}">{% img im, "", "64px" %}</button>{% endeach %}</div>
+      <div class="pdp-main">{% asyncEach im in pics %}<div class="pdp-pic{{ ' on' if loop.first }}" data-pic="{{ loop.index0 }}">{% img im, title + (" photo " + loop.index if not loop.first else ""), "(min-width: 900px) 40vw, 100vw", "", loop.first %}</div>{% endeach %}
+        {% if off >= 10 %}<span class="deal-tag">{{ off }}% off</span>{% endif %}
+      </div>
     </div>
-    <div class="buy">
-      <h1>{{ title }}</h1>
-      <p class="lead">{{ summary }}</p>
-      {% set off = price | discount(mrp) %}
-      <p class="price big">{{ price | inr }}{% if off %} <s>{{ mrp | inr }}</s> <span class="save">Save {{ off }}%</span>{% endif %}</p>
-      <p class="muted small">Inclusive of all taxes. {% if shipping.freeAbove and price >= shipping.freeAbove %}Free shipping.{% else %}Shipping from {{ shipping.defaultRate | inr }}{% if shipping.freeAbove %}, free on orders above {{ shipping.freeAbove | inr }}{% endif %}.{% endif %}</p>
-      <p class="stock {{ 'in' if inStock else 'out' }}">{{ "In stock, ships in 1–3 days" if inStock else "Sold out right now." }}</p>
 
+    <div class="pdp-info">
+      {% if brand %}<a class="pdp-brand" href="/search/?q={{ brand | urlencode }}">Brand: {{ brand }}</a>{% elif coll %}<a class="pdp-brand" href="{{ coll.url }}">Visit the {{ coll.data.title }} store</a>{% endif %}
+      <h1>{{ title }}</h1>
+      <hr>
+      {% if off >= 10 %}<span class="deal-pill">Limited time deal</span>{% endif %}
+      <div class="pdp-price">{% if off %}<span class="pp-pct">-{{ off }}%</span>{% endif %}<span class="pp-now big"><sup>₹</sup>{{ price | inr | replace("₹","") }}</span></div>
+      {% if off %}<p class="pp-mrp">M.R.P.: <s>{{ mrp | inr }}</s></p>{% endif %}
+      <p class="small">Inclusive of all taxes</p>
+      <div class="pdp-perks">
+        <div><span aria-hidden="true">🚚</span>{% if shipping.freeAbove and price >= shipping.freeAbove %}Free delivery{% else %}Free delivery above {{ shipping.freeAbove | inr }}{% endif %}</div>
+        <div><span aria-hidden="true">🔒</span>Secure payment</div>
+        <div><span aria-hidden="true">↩️</span>7-day returns</div>
+        <div><span aria-hidden="true">📦</span>Tracked shipping</div>
+      </div>
+      <hr>
+      {% if summary %}<h2 class="h-small">About this item</h2><ul class="pdp-bullets"><li>{{ summary }}</li>{% if capacity %}<li>Holds {{ capacity }}</li>{% endif %}{% if scale %}<li>Scale {{ scale }}</li>{% endif %}{% if dimensions %}<li>Size: {{ dimensions }}</li>{% endif %}{% if material %}<li>Material: {{ material }}</li>{% endif %}</ul>{% endif %}
+    </div>
+
+    <aside class="buybox">
+      <div class="pp-now big"><sup>₹</sup>{{ price | inr | replace("₹","") }}</div>
+      <p class="small">{% if shipping.freeAbove and price >= shipping.freeAbove %}<b>FREE delivery</b>{% else %}Delivery {{ shipping.defaultRate | inr }}, <b>FREE</b> on orders above {{ shipping.freeAbove | inr }}{% endif %} <span class="delivery-est" data-eta="{{ shipping.dispatchDays }}|{{ shipping.deliveryDays }}"></span></p>
+      <p class="small muted">Ships to all of India</p>
+      <p class="stock {{ 'in' if inStock else 'out' }}">{{ "In stock" if inStock else "Currently unavailable" }}</p>
       {% if inStock %}
       <form class="order" id="add-to-cart" data-id="{{ page.fileSlug }}">
         {% if colours and colours.length %}
-        <label>Colour
-          <select name="colour">{% for c in colours %}<option>{{ c }}</option>{% endfor %}</select>
-        </label>
+        <fieldset class="swatches"><legend>Colour: <b data-colour-name>{{ colours[0] }}</b></legend>
+          {% for c in colours %}<label><input type="radio" name="colour" value="{{ c }}" {% if loop.first %}checked{% endif %}><span>{{ c }}</span></label>{% endfor %}
+        </fieldset>
         {% endif %}
-        <label>Quantity</label>
-        <div class="qty qty-input"><button type="button" data-qty-step="-1" aria-label="Decrease">−</button><input name="qty" type="number" min="1" max="20" value="1" inputmode="numeric" aria-label="Quantity"><button type="button" data-qty-step="1" aria-label="Increase">+</button></div>
-        <div class="actions">
-          <button class="btn btn-ghost" type="submit" value="add">Add to cart</button>
-          <button class="btn btn-pay" type="submit" value="buy">Buy now</button>
-        </div>
-        <p class="muted small">Secure payment by Razorpay: UPI, cards, netbanking and wallets.</p>
+        <label class="qty-sel">Quantity: <select name="qty">{% for n in range(1, 11) %}<option>{{ n }}</option>{% endfor %}</select></label>
+        <button class="btn btn-cart btn-block" type="submit" value="add">Add to Cart</button>
+        <button class="btn btn-pay btn-block" type="submit" value="buy">Buy Now</button>
       </form>
       {% else %}
-      <div class="order">
-        <span class="btn btn-block btn-disabled" aria-disabled="true">Sold out</span>
-        <p class="muted small">Email <a href="mailto:{{ site.email }}?subject={{ ('Restock: ' + title) | urlencode }}">{{ site.email }}</a> to be told when it's back.</p>
-      </div>
+      <p class="small">Email <a href="mailto:{{ site.email }}?subject={{ ('Restock: ' + title) | urlencode }}">{{ site.email }}</a> and we'll tell you when it's back.</p>
       {% endif %}
-
-      {% set coll = collections.shopCollections | findBySlug(collection) %}
-      <table class="specs">
-        {% if coll %}<tr><th>Collection</th><td><a href="{{ coll.url }}">{{ coll.data.title }}</a></td></tr>{% endif %}
-        {% if brand %}<tr><th>Brand</th><td>{{ brand }}</td></tr>{% endif %}
-        {% if capacity %}<tr><th>Holds</th><td>{{ capacity }}</td></tr>{% endif %}
-        {% if scale %}<tr><th>Scale</th><td>{{ scale }}</td></tr>{% endif %}
-        {% if dimensions %}<tr><th>Size</th><td>{{ dimensions }}</td></tr>{% endif %}
-        {% if material %}<tr><th>Material</th><td>{{ material }}</td></tr>{% endif %}
-        {% if sku %}<tr><th>SKU</th><td>{{ sku }}</td></tr>{% endif %}
-      </table>
-    </div>
+      {% if collection == "3d-printed-stands" %}<p class="wholesale-note">Buying for a shop? <a href="/wholesale/">Get wholesale prices</a> by email.</p>{% endif %}
+      <table class="seller"><tr><th>Payment</th><td>Secure transaction</td></tr><tr><th>Ships from</th><td>{{ site.name }}</td></tr><tr><th>Sold by</th><td>{{ site.name }}</td></tr><tr><th>Returns</th><td><a href="/returns/">7-day returns</a></td></tr></table>
+    </aside>
   </div>
-  <section class="prose desc"><h2>Details</h2>{{ content | safe }}</section>
-  <section class="related">
-    <h2>You may also like</h2>
-    <ul class="grid">{% asyncEach p in collections.products | except(page.url) | head(4) %}{% include "product-card.njk" %}{% endeach %}</ul>
+
+  <section class="pdp-section">
+    <h2>Product information</h2>
+    <table class="specs">
+      {% if coll %}<tr><th>Collection</th><td><a href="{{ coll.url }}">{{ coll.data.title }}</a></td></tr>{% endif %}
+      {% if brand %}<tr><th>Brand</th><td>{{ brand }}</td></tr>{% endif %}
+      {% if capacity %}<tr><th>Holds</th><td>{{ capacity }}</td></tr>{% endif %}
+      {% if scale %}<tr><th>Scale</th><td>{{ scale }}</td></tr>{% endif %}
+      {% if dimensions %}<tr><th>Size</th><td>{{ dimensions }}</td></tr>{% endif %}
+      {% if material %}<tr><th>Material</th><td>{{ material }}</td></tr>{% endif %}
+      {% if colours and colours.length %}<tr><th>Options</th><td>{{ colours | join(", ") }}</td></tr>{% endif %}
+      {% if sku %}<tr><th>Item code</th><td>{{ sku }}</td></tr>{% endif %}
+      <tr><th>Dispatch</th><td>{{ shipping.dispatchDays }}</td></tr>
+    </table>
   </section>
+  {% if content | trim %}<section class="pdp-section prose-in"><h2>Product description</h2>{{ content | safe }}</section>{% endif %}
 </div>
+{% set rowTitle = "Products related to this item" %}{% set rowLink = coll.url if coll else "/shop/" %}{% set rowItems = collections.products | except(page.url) %}
+{% include "carousel.njk" %}
+<section class="wrap row-box" data-recent hidden aria-label="Recently viewed">
+  <div class="row-head"><h2>Your browsing history</h2></div>
+  <div class="carousel" data-carousel><button class="car-btn prev" type="button" aria-label="Scroll left" data-car="-1">‹</button><ul class="car-track" data-recent-track></ul><button class="car-btn next" type="button" aria-label="Scroll right" data-car="1">›</button></div>
+</section>
 {% endblock %}

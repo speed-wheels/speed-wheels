@@ -1,0 +1,31 @@
+{
+  "slides": [
+    {
+      "kicker": "Printed to order in India",
+      "title": "Display stands your cars deserve",
+      "text": "Tiered stands, wall racks and showcases. From ₹349.",
+      "button": "Shop stands",
+      "link": "/collections/3d-printed-stands/",
+      "image": "/images/products/tiered-stand-16.jpg",
+      "theme": "red"
+    },
+    {
+      "kicker": "New drops every week",
+      "title": "Hot Wheels, Majorette & Mini GT",
+      "text": "Mainlines, premiums and collector favourites, shipped across India.",
+      "button": "Browse collections",
+      "link": "/collections/",
+      "image": "/images/products/pit-lane-showcase-5.jpg",
+      "theme": "blue"
+    },
+    {
+      "kicker": "Tracked delivery",
+      "title": "Free shipping above ₹999",
+      "text": "Pay by UPI, cards, netbanking or wallets. Track every order.",
+      "button": "Start shopping",
+      "link": "/shop/",
+      "image": "/images/products/wall-garage-rack-20.jpg",
+      "theme": "dark"
+    }
+  ]
+}

@@ -4,8 +4,10 @@ title: Collections
 description: Shop Speed Wheels by collection – Hot Wheels, Majorette, Mini GT die-cast cars and 3D-printed display stands.
 permalink: /collections/
 ---
-<section class="wrap">
-  <h1>Collections</h1>
-  <p class="lead">Pick a collection to explore.</p>
-  {% include "collection-tiles.njk" %}
+<div class="wrap">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> › <span>Collections</span></nav>
+  <h1 class="page-h1">Shop by collection</h1>
+</div>
+<section class="wrap home-cards flat" aria-label="Collections">
+  {% include "collection-cards.njk" %}
 </section>

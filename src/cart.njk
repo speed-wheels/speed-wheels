@@ -1,11 +1,16 @@
 ---
 layout: base.njk
-title: Your cart
+title: Shopping cart
 permalink: /cart/
 noindex: true
 eleventyExcludeFromCollections: true
 ---
-<section class="wrap narrow">
-  <h1>Your cart</h1>
-  <div id="cart"><p class="muted">Loading your cart…</p></div>
+<div class="wrap cart-page">
+  <div id="cart"><div class="panel"><p class="muted">Loading your cart…</p></div></div>
+</div>
+<section class="wrap row-box" data-recent hidden aria-label="Recently viewed">
+  <div class="row-head"><h2>Your browsing history</h2></div>
+  <div class="carousel" data-carousel><button class="car-btn prev" type="button" aria-label="Scroll left" data-car="-1">‹</button><ul class="car-track" data-recent-track></ul><button class="car-btn next" type="button" aria-label="Scroll right" data-car="1">›</button></div>
 </section>
+{% set rowTitle = "Customers also bought" %}{% set rowLink = "/shop/" %}{% set rowItems = collections.products %}
+{% include "carousel.njk" %}

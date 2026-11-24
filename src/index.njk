@@ -4,39 +4,63 @@ layout: base.njk
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"OnlineStore","name":{{ site.name | json | safe }},"url":"{{ site.url }}/","description":{{ site.description | json | safe }},"logo":"{{ site.url }}/assets/logo.png","email":"{{ site.email }}","sameAs":["{{ site.instagram }}"],"areaServed":"IN"}
 </script>
-<section class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <p class="eyebrow">For die-cast collectors across India</p>
-      <h1>Collect. Display. <em>Repeat.</em></h1>
-      <p class="lead">Hot Wheels, Majorette and Mini GT die-cast cars, plus our own 3D-printed stands to show them off.</p>
-      <div class="actions">
-        <a class="btn btn-pay" href="/shop/">Shop now</a>
-        <a class="btn btn-ghost" href="/collections/">Browse collections</a>
+<section class="hero-slider" data-slider aria-roledescription="carousel" aria-label="Offers">
+  <div class="slides">
+    {% asyncEach s in banners.slides %}
+    <div class="slide theme-{{ s.theme or 'orange' }}" role="group" aria-roledescription="slide" aria-label="{{ loop.index }} of {{ banners.slides.length }}">
+      <div class="wrap slide-inner">
+        <div class="slide-copy">
+          {% if s.kicker %}<p class="slide-kicker">{{ s.kicker }}</p>{% endif %}
+          <h2 class="slide-title">{{ s.title }}</h2>
+          {% if s.text %}<p class="slide-text">{{ s.text }}</p>{% endif %}
+          <a class="btn btn-pay" href="{{ s.link or '/shop/' }}">{{ s.button or "Shop now" }}</a>
+        </div>
+        <div class="slide-art">{% asyncEach im in s.image | asList %}{% img im, "", "(min-width: 900px) 520px, 60vw", "", loop.index0 == 0 %}{% endeach %}</div>
       </div>
     </div>
-    {% set hero = collections.products[1] or collections.products[0] %}
-    <a class="hero-img" href="{{ hero.url }}">{% img hero.data.image, hero.data.title, "(min-width: 900px) 45vw, 100vw", "", true %}</a>
+    {% endeach %}
+  </div>
+  <button class="slide-nav prev" type="button" data-slide="-1" aria-label="Previous slide">‹</button>
+  <button class="slide-nav next" type="button" data-slide="1" aria-label="Next slide">›</button>
+  <div class="slide-dots" role="tablist">{% for s in banners.slides %}<button type="button" data-dot="{{ loop.index0 }}" aria-label="Go to slide {{ loop.index }}"></button>{% endfor %}</div>
+</section>
+
+<section class="wrap home-cards" aria-label="Shop by collection">
+  {% include "collection-cards.njk" %}
+  <div class="hcard hcard-promo">
+    <h2>Free shipping above {{ shipping.freeAbove | inr }}</h2>
+    <p>Tracked delivery anywhere in India. Pay with UPI, cards, netbanking or wallets.</p>
+    <a class="btn btn-pay" href="/shop/">Shop all products</a>
+    <a class="hcard-link" href="/track/">Track an order</a>
   </div>
 </section>
-<section class="wrap perks" aria-label="Why Speed Wheels">
-  <div><strong>Genuine die-cast</strong><span>Hot Wheels, Majorette, Mini GT and more</span></div>
-  <div><strong>Ships across India</strong><span>{% if shipping.freeAbove %}Free shipping above {{ shipping.freeAbove | inr }}{% else %}Tracked delivery to your door{% endif %}</span></div>
-  <div><strong>Pay your way</strong><span>UPI, cards, netbanking and wallets via Razorpay</span></div>
-  <div><strong>Track your order</strong><span>Live status and courier tracking</span></div>
 </section>
-<section class="wrap">
-  <div class="section-head"><h2>Shop by collection</h2><a href="/collections/">All collections →</a></div>
-  {% include "collection-tiles.njk" %}
+
+{% set rowTitle = "Best sellers" %}{% set rowLink = "/shop/" %}{% set rowItems = collections.products | featured %}
+{% include "carousel.njk" %}
+
+<section class="wrap row-box" data-recent hidden aria-label="Recently viewed">
+  <div class="row-head"><h2>Your recently viewed items</h2></div>
+  <div class="carousel" data-carousel><button class="car-btn prev" type="button" aria-label="Scroll left" data-car="-1">‹</button><ul class="car-track" data-recent-track></ul><button class="car-btn next" type="button" aria-label="Scroll right" data-car="1">›</button></div>
 </section>
-<section class="wrap">
-  <div class="section-head"><h2>Best sellers</h2><a href="/shop/">View all →</a></div>
-  <ul class="grid">{% asyncEach p in collections.products | featured %}{% include "product-card.njk" %}{% endeach %}</ul>
+
+{% set rowTitle = "Today's deals" %}{% set rowLink = "/shop/?sort=deals" %}{% set rowItems = collections.products | deals %}
+{% include "carousel.njk" %}
+
+{% asyncEach c in collections.shopCollections %}
+{%- set rowItems = collections.products | inCollection(c.fileSlug) %}
+{%- set rowTitle = "Top picks in " + c.data.title %}{% set rowLink = c.url %}
+{% include "carousel.njk" %}
+{% endeach %}
+
+<section class="wrap trust" aria-label="Why shop with us">
+  <div><b>100% genuine</b><span>Original die-cast from Hot Wheels, Majorette, Mini GT and more</span></div>
+  <div><b>Secure payments</b><span>Razorpay: UPI, cards, netbanking, wallets</span></div>
+  <div><b>Tracked shipping</b><span>{{ shipping.dispatchDays }} dispatch, live tracking</span></div>
+  <div><b>Easy help</b><span>Email or Instagram {{ site.instagramHandle }}</span></div>
 </section>
-<section class="wrap band">
-  <div>
-    <h2>Got a collection that needs a custom display?</h2>
-    <p>Tell us how many cars you have and where you want to put them. We'll design and print a stand to fit.</p>
-  </div>
-  <a class="btn btn-pay" href="{{ site.instagram }}" target="_blank" rel="noopener">Message us on Instagram</a>
+
+<section class="wrap custom-band">
+  <div><p class="band-kicker">Wholesale</p><h2>Display stands in bulk for your shop</h2><p>We supply our 3D-printed stands at wholesale prices to toy shops, hobby stores and resellers across India. Custom colours and designs too.</p></div>
+  <div class="band-actions"><a class="btn btn-pay" href="mailto:{{ site.email }}?subject=Wholesale%20enquiry">Email for wholesale prices</a><a class="band-link" href="/wholesale/">How wholesale works</a></div>
 </section>

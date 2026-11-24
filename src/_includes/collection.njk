@@ -1,17 +1,9 @@
 {% extends "base.njk" %}
 {% block content %}
 {% set items = collections.products | inCollection(page.fileSlug) %}
-<section class="wrap">
-  <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/collections/">Collections</a> / <span>{{ title }}</span></nav>
-  <h1>{{ title }}</h1>
-  {% if description %}<p class="lead">{{ description }}</p>{% endif %}
-  {{ content | safe }}
-  {% if items.length %}
-  <ul class="grid">{% asyncEach p in items %}{% include "product-card.njk" %}{% endeach %}</ul>
-  {% else %}
-  <div class="empty"><p>New arrivals for this collection are coming soon. Follow us on <a href="{{ site.instagram }}" target="_blank" rel="noopener">Instagram</a> for drops.</p><a class="btn btn-pay" href="/shop/">Browse everything</a></div>
-  {% endif %}
-</section>
+{% set heading = title %}{% set activeSlug = page.fileSlug %}
+{% set intro %}{% if description %}<p>{{ description }}</p>{% endif %}{{ content | safe }}{% endset %}
+{% include "listing.njk" %}
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"CollectionPage","name":{{ title | json | safe }},"url":"{{ page.url | absUrl(site.url) }}"{% if items.length %},"mainEntity":{"@type":"ItemList","itemListElement":[{% for p in items %}{"@type":"ListItem","position":{{ loop.index }},"url":"{{ p.url | absUrl(site.url) }}"}{% if not loop.last %},{% endif %}{% endfor %}]}{% endif %}}
 </script>

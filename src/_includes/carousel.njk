@@ -1,0 +1,11 @@
+{#- expects: rowTitle, rowLink, rowItems -#}
+<section class="wrap row-box" aria-label="{{ rowTitle }}">
+  <div class="row-head"><h2>{{ rowTitle }}</h2>{% if rowLink %}<a href="{{ rowLink }}">See all</a>{% endif %}</div>
+  <div class="carousel" data-carousel>
+    <button class="car-btn prev" type="button" aria-label="Scroll left" data-car="-1">‹</button>
+    <ul class="car-track">{% asyncEach p in rowItems %}{%- set off = p.data.price | discount(p.data.mrp) %}
+      <li class="ccard"><a href="{{ p.url }}"><span class="ccard-img">{% img p.data.image, p.data.title, "200px" %}</span>{% if off >= 10 %}<span class="deal-pill">{{ off }}% off</span>{% endif %}<span class="ccard-price"><sup>₹</sup>{{ p.data.price | inr | replace("₹","") }}{% if off %} <s>{{ p.data.mrp | inr }}</s>{% endif %}</span><span class="ccard-title">{{ p.data.title }}</span></a></li>{% endeach %}
+    </ul>
+    <button class="car-btn next" type="button" aria-label="Scroll right" data-car="1">›</button>
+  </div>
+</section>

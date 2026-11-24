@@ -1,0 +1,40 @@
+{#- expects: items (products), heading, intro, activeSlug -#}
+<div class="wrap listing" data-listing>
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> › {% if activeSlug %}<a href="/shop/">Shop</a> › {% endif %}<span>{{ heading }}</span></nav>
+  <div class="resultbar">
+    <p><b data-count>{{ items.length }}</b> result{{ "" if items.length == 1 else "s" }} in <b class="accent">"{{ heading }}"</b></p>
+    <div class="resultbar-tools">
+      <button class="btn-filter" type="button" data-filter-open>Filters</button>
+      <label class="sortby">Sort by <select data-sort><option value="featured">Featured</option><option value="price-asc">Price: Low to High</option><option value="price-desc">Price: High to Low</option><option value="new">Newest arrivals</option><option value="deals">Best discount</option></select></label>
+    </div>
+  </div>
+  <div class="listing-grid">
+    <aside class="filters" data-filters>
+      <div class="filters-head"><b>Filters</b><button class="icon-btn" type="button" data-filter-close aria-label="Close filters">✕</button></div>
+      <h3>Category</h3>
+      <ul class="flinks"><li><a href="/shop/" {% if not activeSlug %}aria-current="page"{% endif %}>All products</a></li>{% for c in collections.shopCollections %}<li><a href="{{ c.url }}" {% if activeSlug == c.fileSlug %}aria-current="page"{% endif %}>{{ c.data.title }}</a></li>{% endfor %}</ul>
+      <h3>Price</h3>
+      <ul class="fchecks">
+        <li><label><input type="radio" name="price" value="" checked> Any price</label></li>
+        <li><label><input type="radio" name="price" value="0-300"> Under ₹300</label></li>
+        <li><label><input type="radio" name="price" value="300-600"> ₹300 – ₹600</label></li>
+        <li><label><input type="radio" name="price" value="600-1000"> ₹600 – ₹1,000</label></li>
+        <li><label><input type="radio" name="price" value="1000-999999"> Over ₹1,000</label></li>
+      </ul>
+      <h3>Discount</h3>
+      <ul class="fchecks"><li><label><input type="checkbox" name="deal"> 10% off or more</label></li></ul>
+      <h3>Availability</h3>
+      <ul class="fchecks"><li><label><input type="checkbox" name="instock"> Hide out of stock</label></li></ul>
+      <button class="btn btn-pay btn-block filters-done" type="button" data-filter-close>Show results</button>
+    </aside>
+    <div>
+      {% if intro %}<div class="listing-intro">{{ intro | safe }}</div>{% endif %}
+      {% if items.length %}
+      <ul class="pgrid" data-grid>{% asyncEach p in items %}{% include "product-card.njk" %}{% endeach %}</ul>
+      <div class="empty" data-noresults hidden><p>No products match these filters.</p><button class="btn btn-ghost" type="button" data-filter-reset>Clear filters</button></div>
+      {% else %}
+      <div class="empty"><h2>New arrivals coming soon</h2><p>We're stocking this collection. Follow <a href="{{ site.instagram }}" target="_blank" rel="noopener">{{ site.instagramHandle }}</a> on Instagram for drops.</p><a class="btn btn-pay" href="/shop/">Browse everything</a></div>
+      {% endif %}
+    </div>
+  </div>
+</div>

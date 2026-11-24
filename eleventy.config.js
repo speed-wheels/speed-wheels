@@ -28,6 +28,10 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("except", (a, url) => a.filter((p) => p.url !== url));
   eleventyConfig.addFilter("inCollection", (a, slug) => a.filter((p) => p.data.collection === slug));
   eleventyConfig.addFilter("findBySlug", (a, slug) => (a || []).find((c) => c.fileSlug === slug));
+  eleventyConfig.addFilter("deals", (a) => a.filter((p) => p.data.mrp > p.data.price).sort((x, y) => y.data.mrp / y.data.price - x.data.mrp / x.data.price));
+  eleventyConfig.addFilter("asList", (v) => (v ? [v] : []));
+  eleventyConfig.addFilter("images", (a, n) => (a || []).slice(0, n).map((p) => ({ src: p.data.image, alt: p.data.title })));
+  eleventyConfig.addFilter("allImages", (img, gallery) => [img, ...((gallery || []).map((g) => (typeof g === "string" ? g : g && g.photo)))].filter(Boolean));
   eleventyConfig.addFilter("year", () => new Date().getFullYear());
 
   // Responsive WebP images from any uploaded photo (jpg/png/webp)

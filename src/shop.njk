@@ -4,11 +4,8 @@ title: Shop all products
 description: Shop Hot Wheels, Majorette and Mini GT die-cast cars and 3D-printed display stands. Shipped across India.
 permalink: /shop/
 ---
-<section class="wrap">
-  <h1>All products</h1>
-  <nav class="chips" aria-label="Collections"><a class="chip" aria-current="page" href="/shop/">All</a>{% for c in collections.shopCollections %}<a class="chip" href="{{ c.url }}">{{ c.data.title }}</a>{% endfor %}</nav>
-  <ul class="grid">{% asyncEach p in collections.products %}{% include "product-card.njk" %}{% endeach %}</ul>
-</section>
+{% set items = collections.products %}{% set heading = "All products" %}{% set activeSlug = "" %}{% set intro = "" %}
+{% include "listing.njk" %}
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"ItemList","itemListElement":[{% for p in collections.products %}{"@type":"ListItem","position":{{ loop.index }},"url":"{{ p.url | absUrl(site.url) }}"}{% if not loop.last %},{% endif %}{% endfor %}]}
 </script>

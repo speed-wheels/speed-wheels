@@ -1,0 +1,12 @@
+  {% asyncEach c in collections.shopCollections %}
+  {%- set items = collections.products | inCollection(c.fileSlug) %}
+  <div class="hcard">
+    <h2>{{ c.data.title }}</h2>
+    <a class="hcard-media" href="{{ c.url }}" aria-label="{{ c.data.title }}">
+      {%- asyncEach im in c.data.image | asList %}<span class="hcard-cover">{% img im, "", "300px" %}</span>{% endeach -%}
+      <span class="quad">{% asyncEach im in items | images(4) %}<span class="quad-cell">{% img im.src, "", "150px" %}</span>{% endeach %}</span>
+      <span class="hcard-soon"><b>{{ c.data.title }}</b>Coming soon</span>
+    </a>
+    <a class="hcard-link" href="{{ c.url }}">See more</a>
+  </div>
+  {% endeach %}

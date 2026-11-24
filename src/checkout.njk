@@ -5,31 +5,47 @@ permalink: /checkout/
 noindex: true
 eleventyExcludeFromCollections: true
 ---
-<section class="wrap">
-  <h1>Checkout</h1>
+<div class="wrap">
+  <div class="co-top"><h1>Checkout <span class="muted" data-co-count></span></h1><span class="co-secure">🔒 Secure checkout</span></div>
   <form id="checkout" class="checkout" novalidate>
-    <div class="co-form">
-      <h2>Delivery details</h2>
-      <label>Full name<input name="name" autocomplete="name" required minlength="2" maxlength="80"></label>
-      <div class="two">
-        <label>Mobile number<input name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" required pattern="[6-9][0-9]{9}" maxlength="10" placeholder="10-digit mobile"></label>
-        <label>Email<input name="email" type="email" autocomplete="email" required maxlength="120"></label>
-      </div>
-      <label>Address (house no, street, area, landmark)<textarea name="address" autocomplete="street-address" required minlength="8" maxlength="300" rows="3"></textarea></label>
-      <div class="three">
-        <label>City<input name="city" autocomplete="address-level2" required maxlength="60"></label>
-        <label>State<select name="state" autocomplete="address-level1" required><option value="">Choose…</option>{% for s in states %}<option>{{ s }}</option>{% endfor %}</select></label>
-        <label>PIN code<input name="pincode" inputmode="numeric" autocomplete="postal-code" required pattern="[1-9][0-9]{5}" maxlength="6"></label>
-      </div>
-      <p class="muted small">We'll email your order confirmation and tracking details. By paying you agree to our <a href="/terms/">Terms</a>, <a href="/shipping/">Shipping</a> and <a href="/returns/">Returns</a> policies.</p>
+    <div class="co-main">
+      <section class="co-step">
+        <h2><span class="co-num">1</span> Delivery address</h2>
+        <div class="co-form">
+          <label>Full name<input name="name" autocomplete="name" required minlength="2" maxlength="80" placeholder="First and last name"></label>
+          <div class="two">
+            <label>Mobile number<input name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" required pattern="[6-9][0-9]{9}" maxlength="10" placeholder="10-digit mobile number"></label>
+            <label>Email<input name="email" type="email" autocomplete="email" required maxlength="120" placeholder="For order updates"></label>
+          </div>
+          <label>Address<textarea name="address" autocomplete="street-address" required minlength="8" maxlength="300" rows="3" placeholder="Flat / house no., building, street, area, landmark"></textarea></label>
+          <div class="three">
+            <label>PIN code<input name="pincode" inputmode="numeric" autocomplete="postal-code" required pattern="[1-9][0-9]{5}" maxlength="6" placeholder="6 digits"></label>
+            <label>Town / city<input name="city" autocomplete="address-level2" required maxlength="60"></label>
+            <label>State<select name="state" autocomplete="address-level1" required><option value="">Choose a state</option>{% for s in states %}<option>{{ s }}</option>{% endfor %}</select></label>
+          </div>
+        </div>
+      </section>
+      <section class="co-step">
+        <h2><span class="co-num">2</span> Review items and delivery</h2>
+        <div id="co-items" class="co-items"><p class="muted">Loading…</p></div>
+        <p class="small muted">Dispatched in {{ shipping.dispatchDays }}, delivered in {{ shipping.deliveryDays }} after dispatch. <a href="/cart/">Change items</a></p>
+      </section>
+      <section class="co-step">
+        <h2><span class="co-num">3</span> Payment</h2>
+        <div class="pay-methods"><span>UPI</span><span>Cards</span><span>Netbanking</span><span>Wallets</span></div>
+        <p class="small muted">You'll choose how to pay in the secure Razorpay window after you place your order.</p>
+      </section>
     </div>
     <aside class="co-side">
-      <h2>Order summary</h2>
-      <div id="co-summary" class="summary"><p class="muted">Loading…</p></div>
-      <p id="co-msg" class="error" role="alert" hidden></p>
-      <button id="co-pay" class="btn btn-pay btn-block" type="submit">Pay securely</button>
-      <p class="muted small center">🔒 Payments secured by Razorpay · UPI · Cards · Netbanking · Wallets</p>
-      <a class="small" href="/cart/">← Back to cart</a>
+      <div class="panel">
+        <button id="co-pay" class="btn btn-pay btn-block" type="submit">Place order and pay</button>
+        <p class="small muted center">By placing your order you agree to our <a href="/terms/">Terms</a>, <a href="/shipping/">Shipping</a> and <a href="/returns/">Returns</a> policies.</p>
+        <hr>
+        <h2 class="h-small">Order summary</h2>
+        <div id="co-summary" class="summary"><p class="muted">Loading…</p></div>
+        <p id="co-msg" class="error" role="alert" hidden></p>
+      </div>
+      <p class="small muted center">🔒 Payments secured by Razorpay</p>
     </aside>
   </form>
-</section>
+</div>
