@@ -19,7 +19,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/assets/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-<link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="/assets/style.css?v={{ build }}">
 {% block schema %}{% endblock %}
 </head>
 <body>
@@ -98,6 +98,6 @@
     <p class="fine">© {{ "now" | year }} {{ site.name }}. Speed Wheels is an independent retailer. Hot Wheels, Majorette, Mini GT and other brand names are trademarks of their respective owners; we are not affiliated with or endorsed by them.</p>
   </div>
 </footer>
-<script src="/assets/shop.js" defer></script>
+<script src="/assets/shop.js?v={{ build }}" defer></script>
 </body>
 </html>
