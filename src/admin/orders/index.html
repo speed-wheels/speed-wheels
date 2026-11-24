@@ -128,15 +128,18 @@ label{display:block;font-weight:600;font-size:.82rem;margin:10px 0 3px}
   .toolbar{position:static;gap:6px}.toolbar .btn{min-height:34px;padding:0 10px;font-size:.8rem}
   main{padding:10px}.kpi strong{font-size:1.35rem}
 }
+#v-products .prodbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin-bottom:10px}
+#v-products .prodlinks{display:flex;flex-wrap:wrap;gap:6px}
+#cms{width:100%;height:calc(100vh - 190px);min-height:520px;border:1px solid #ddd;border-radius:8px;background:#fff}
 </style>
 <style id="pagesize"></style>
 </head>
 <body>
 <header>
   <div class="hrow"><img src="/assets/logo-dark.png" alt="Speed Wheels"><div class="title">Seller dashboard<small>Orders, packing and shipping</small></div>
-    <a class="hlink" href="/admin/">Products<span class="hide-sm"> &amp; settings</span></a><a class="hlink hide-sm" href="/" target="_blank">View store</a><button class="hlink" id="logout" hidden>Log out</button></div>
+    <a class="hlink hide-sm" href="/" target="_blank">View store</a><button class="hlink" id="logout" hidden>Log out</button></div>
   <nav class="tabsnav" id="mainnav" hidden><div class="in">
-    <button data-view="dash" class="on">Dashboard</button><button data-view="orders">Orders <span class="badge" id="nav-new" hidden></span></button><button data-view="help">How it works</button>
+    <button data-view="dash" class="on">Dashboard</button><button data-view="orders">Orders <span class="badge" id="nav-new" hidden></span></button><button data-view="products">Products</button><button data-view="help">How it works</button>
   </div></nav>
 </header>
 <main>
@@ -177,6 +180,12 @@ label{display:block;font-weight:600;font-size:.82rem;margin:10px 0 3px}
     <div id="list"></div>
   </section>
 
+  <section id="v-products" hidden>
+    <div class="prodbar"><span class="small muted">Add, edit or delete products, change prices and stock, upload photos, manage collections, shipping and banners. Click <b>Publish</b> in the editor and the store updates in about a minute.</span>
+      <span class="prodlinks"><button class="btn ghost" type="button" data-cms="#/collections/products/new">+ New product</button><button class="btn ghost" type="button" data-cms="#/collections/products">All products</button><button class="btn ghost" type="button" data-cms="#/collections/collections">Collections</button><button class="btn ghost" type="button" data-cms="#/collections/settings/entries/shipping">Shipping</button><button class="btn ghost" type="button" data-cms="#/collections/settings/entries/banners">Home banners</button><button class="btn ghost" type="button" data-cms="#/collections/settings/entries/site">Shop details</button><button class="btn ghost" type="button" data-cms="#/collections/pages">Pages</button><a class="btn ghost" href="/admin/" target="_blank" rel="noopener">Open full screen &#8599;</a></span></div>
+    <iframe id="cms" title="Product editor" src="about:blank"></iframe>
+  </section>
+
   <section id="v-help" hidden>
     <div class="card">
       <h2>How an order works</h2>
@@ -191,7 +200,7 @@ label{display:block;font-weight:600;font-size:.82rem;margin:10px 0 3px}
       </ol>
       <h3>Good to know</h3>
       <ul class="small">
-        <li>The "From" address on labels and slips comes from <b>Products &amp; settings → Settings → Shop details</b>. Add your shipping-from address and phone there once.</li>
+        <li>The "From" address on labels and slips comes from <b>Products tab → Shop details</b>. Add your shipping-from address and phone there once.</li>
         <li><b>Unpaid</b> lists people who opened payment but didn't pay. You don't need to do anything with them.</li>
         <li><b>Excel (CSV)</b> downloads the orders you are looking at, for your accounts.</li>
         <li>This page works on your phone too. Add it to your home screen for quick access.</li>
@@ -218,16 +227,18 @@ var view="dash", tab="paid", orders=[], open={}, sel={}, stats=null, store=null,
 function api(path,opts){opts=opts||{};opts.headers=Object.assign({"authorization":"Bearer "+pw,"content-type":"application/json"},opts.headers||{});
   return fetch(path,opts).then(function(r){return r.json().catch(function(){return{ok:false,error:"Server error "+r.status}}).then(function(d){d._status=r.status;return d})})}
 function toast(t){var el=document.createElement("div");el.className="toast";el.textContent=t;document.body.appendChild(el);setTimeout(function(){el.remove()},5000)}
-function showLogin(m){["#v-dash","#v-orders","#v-help","#mainnav","#alertbar"].forEach(function(s){$(s).hidden=true});$("#login").hidden=false;$("#logout").hidden=true;
+function showLogin(m){["#v-dash","#v-orders","#v-products","#v-help","#mainnav","#alertbar"].forEach(function(s){$(s).hidden=true});$("#login").hidden=false;$("#logout").hidden=true;
   $("#login-msg").innerHTML=m?'<div class="msg err">'+esc(m)+'</div>':"";clearInterval(timer)}
 function loggedIn(){$("#login").hidden=true;$("#mainnav").hidden=false;$("#logout").hidden=false;
   var dis=false;try{dis=localStorage.getItem("sw_alerts_dismissed")==="1"}catch(e){}$("#alertbar").hidden=!("Notification" in window)||Notification.permission==="granted"||dis}
 
 // ---------- views
 function go(v){view=v;$$("#mainnav button").forEach(function(b){b.classList.toggle("on",b.dataset.view===v)});
-  $("#v-dash").hidden=v!=="dash";$("#v-orders").hidden=v!=="orders";$("#v-help").hidden=v!=="help";
+  $("#v-dash").hidden=v!=="dash";$("#v-orders").hidden=v!=="orders";$("#v-help").hidden=v!=="help";$("#v-products").hidden=v!=="products";
+  if(v==="products"){var f=$("#cms");if(!f.src||f.src==="about:blank")f.src="/admin/#/collections/products"}
   if(v==="dash")loadStats();if(v==="orders"){renderTabs();loadOrders()}}
 $$("#mainnav button").forEach(function(b){b.onclick=function(){go(b.dataset.view)}});
+$$("[data-cms]").forEach(function(b){b.onclick=function(){var f=$("#cms");try{f.contentWindow.location.hash=b.dataset.cms}catch(e){f.src="/admin/"+b.dataset.cms}}});
 
 // ---------- dashboard
 function loadStats(silent){return api("/api/admin/stats").then(function(d){
