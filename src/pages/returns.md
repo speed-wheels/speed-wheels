@@ -13,4 +13,4 @@ updated: 24 November 2026
 
 **Refunds.** Approved refunds are processed within 5–7 working days to the original payment method (UPI, card or bank account). Your bank may take a few more days to show it.
 
-**How to request.** Message us on [WhatsApp](https://wa.me/{{ site.whatsapp }}) or email [{{ site.email }}](mailto:{{ site.email }}) with your order details.
+**How to request.** Email [{{ site.email }}](mailto:{{ site.email }}) with your order details.

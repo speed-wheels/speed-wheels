@@ -50,8 +50,6 @@ collections:
           - { name: tagline, label: Tagline, widget: string }
           - { name: description, label: Google description, widget: text }
           - { name: url, label: Website address, widget: string }
-          - { name: whatsapp, label: "WhatsApp number (country code, digits only, e.g. 919876543210)", widget: string }
-          - { name: phone, label: Phone (as shown), widget: string }
           - { name: email, label: Email, widget: string }
           - { name: instagram, label: Instagram link, widget: string }
           - { name: instagramHandle, label: Instagram handle, widget: string }

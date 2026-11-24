@@ -11,7 +11,7 @@ updated: 24 November 2026
 
 **Shipping charges.** A flat shipping fee of ₹{{ site.shippingFee }} applies per order. Shipping is free on orders of ₹{{ site.freeShippingAbove }} or more.
 
-**Tracking.** Once your order ships, we will send the tracking number on WhatsApp or email.
+**Tracking.** Once your order ships, we will send the tracking number by email or SMS.
 
 **Damaged in transit.** If your parcel arrives damaged, please record an unboxing video and message us within 48 hours of delivery. We will send a replacement free of charge.
 

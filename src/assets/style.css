@@ -24,7 +24,7 @@ nav a:hover,nav a[aria-current]{background:var(--ink-2);color:var(--accent)}
 /* buttons */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:999px;font-weight:700;text-decoration:none;border:2px solid transparent;cursor:pointer;font-size:1rem}
 .btn-pay{background:var(--accent);color:#fff}.btn-pay:hover{background:var(--accent-ink)}
-.btn-wa{background:var(--wa);color:#fff}.btn-wa:hover{filter:brightness(.92)}
+.btn-block{display:flex;width:100%}.btn-disabled{background:#e6e1d8;color:var(--muted);cursor:default}
 .btn-ghost{border-color:currentColor}
 .actions{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}
 /* hero */
@@ -85,9 +85,7 @@ nav a:hover,nav a[aria-current]{background:var(--ink-2);color:var(--accent)}
 .site-footer h2{font-size:.85rem;text-transform:uppercase;letter-spacing:.12em;color:#fff}
 .site-footer ul{list-style:none;padding:0;margin:0}.site-footer li{margin:6px 0}
 .site-footer a{text-decoration:none}.site-footer a:hover{color:var(--accent)}
-.fine{font-size:.78rem;color:#9a958d;padding-bottom:88px}
-/* whatsapp float */
-.wa-float{position:fixed;right:16px;bottom:16px;width:56px;height:56px;border-radius:50%;background:var(--wa);color:#fff;display:grid;place-items:center;box-shadow:0 8px 20px -6px rgba(0,0,0,.45);z-index:6}
+.fine{font-size:.78rem;color:#9a958d;padding-bottom:24px}
 a:focus-visible,.btn:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 @media(max-width:480px){.header-row{gap:6px}.brand{font-size:.92rem;letter-spacing:.03em;gap:6px}.brand .logo-mark{width:28px;height:28px}nav{gap:0}nav a{padding:8px 7px;font-size:.88rem}}

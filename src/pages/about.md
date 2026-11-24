@@ -13,4 +13,4 @@ So we started designing and 3D-printing our own stands, sized exactly for die-ca
 - Pedestals for your hero cars
 - Custom stands in your colour and size
 
-Follow our builds and new designs on [Instagram]({{ site.instagram }}) or [message us on WhatsApp](https://wa.me/{{ site.whatsapp }}) for a custom piece.
+Follow our builds and new designs on [Instagram]({{ site.instagram }}) or [email us]({{ "mailto:" + site.email }}) for a custom piece.

@@ -9,7 +9,7 @@ By using {{ site.url }} or placing an order with {{ site.businessName }} ("Speed
 
 **Brands.** Speed Wheels is an independent shop and is not affiliated with Mattel, Hot Wheels, Matchbox or any other brand. Brand names are mentioned only to describe which car sizes our stands fit. Cars shown in photos are not included unless stated.
 
-**Prices and payment.** Prices are in Indian Rupees (₹) and include applicable taxes. Shipping is shown separately. Payment is taken online via Razorpay (UPI, cards, netbanking, wallets) or by UPI after confirming your order on WhatsApp. An order is confirmed only after payment is received.
+**Prices and payment.** Prices are in Indian Rupees (₹) and include applicable taxes. Shipping is shown separately. Payment is taken online via Razorpay (UPI, cards, netbanking, wallets). An order is confirmed only after payment is received.
 
 **Orders.** We may refuse or cancel an order if a product is unavailable or a price is shown incorrectly. In that case you will get a full refund.
 
@@ -19,4 +19,4 @@ By using {{ site.url }} or placing an order with {{ site.businessName }} ("Speed
 
 **Governing law.** These terms are governed by the laws of India. Disputes are subject to the courts of {{ site.city }}.
 
-**Contact.** [{{ site.email }}](mailto:{{ site.email }}) · [WhatsApp](https://wa.me/{{ site.whatsapp }}).
+**Contact.** [{{ site.email }}](mailto:{{ site.email }}).

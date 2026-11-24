@@ -9,7 +9,7 @@ This policy explains how {{ site.businessName }} ("Speed Wheels", "we") handles 
 
 **How we use it.** Only to process and deliver your order, contact you about it, handle returns and refunds, and meet legal and tax requirements. With your permission, we may tell you about new products. You can opt out any time.
 
-**Who we share it with.** Courier partners (to deliver your order), Razorpay (to process payment) and WhatsApp (when you message us). We never sell your data.
+**Who we share it with.** Courier partners (to deliver your order), Razorpay (to process payment) and Instagram (when you message us there). We never sell your data.
 
 **Cookies and analytics.** This site does not use advertising cookies. We may use privacy-friendly analytics to count visits.
 
