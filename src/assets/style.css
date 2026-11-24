@@ -386,3 +386,4 @@ body.lock{overflow:hidden}
 .wrap.custom-band{max-width:calc(1500px - 32px)}
 @media(max-width:1532px){.wrap.custom-band{margin-left:16px;margin-right:16px}}
 @media(max-width:760px){.home-cards{grid-template-columns:1fr 1fr}}
+.toast div,.toast .btn{white-space:nowrap;flex:0 0 auto}
