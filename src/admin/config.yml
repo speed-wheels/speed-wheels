@@ -1,0 +1,74 @@
+# Content editor for Speed Wheels. Edits are saved as commits to GitHub,
+# then Cloudflare Pages rebuilds the site automatically (about 1 minute).
+backend:
+  name: github
+  repo: speed-wheels/speed-wheels
+  branch: main
+
+media_folder: src/images/products
+public_folder: /images/products
+
+collections:
+  - name: products
+    label: Products
+    label_singular: Product
+    folder: src/products
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    summary: "{{title}} · ₹{{price}}"
+    sortable_fields: [order, title, price]
+    fields:
+      - { name: title, label: Product name, widget: string }
+      - { name: price, label: Selling price (₹), widget: number, value_type: int }
+      - { name: mrp, label: MRP (₹, shown crossed out; leave same as price for no discount), widget: number, value_type: int, required: false }
+      - { name: image, label: Main photo, widget: image, hint: "Square photos look best. Any size; the site makes fast WebP versions automatically." }
+      - { name: gallery, label: More photos, widget: list, field: { name: photo, label: Photo, widget: image }, required: false }
+      - { name: summary, label: Short description (1–2 lines, used on Google too), widget: text }
+      - { name: body, label: Full description, widget: markdown }
+      - { name: capacity, label: Holds, widget: string, hint: "e.g. 16 cars" }
+      - { name: scale, label: Car scale, widget: string, default: "1:64" }
+      - { name: dimensions, label: Size, widget: string, hint: "e.g. 30 × 18 × 14 cm" }
+      - { name: material, label: Material, widget: string, default: "PLA+ (matte finish)" }
+      - { name: colours, label: Colour options, widget: list, required: false }
+      - { name: inStock, label: In stock, widget: boolean, default: true }
+      - { name: razorpayLink, label: Razorpay payment link (optional), widget: string, required: false, hint: "Paste a Razorpay Payment Link / Payment Page URL to show a 'Pay online' button." }
+      - { name: sku, label: SKU / product code, widget: string, required: false }
+      - { name: featured, label: Show on home page, widget: boolean, default: false }
+      - { name: order, label: Sort order (lower shows first), widget: number, value_type: int, default: 10 }
+
+  - name: settings
+    label: Shop settings
+    files:
+      - name: site
+        label: Shop details
+        file: src/_data/site.json
+        format: json
+        fields:
+          - { name: name, label: Shop name, widget: string }
+          - { name: tagline, label: Tagline, widget: string }
+          - { name: description, label: Google description, widget: text }
+          - { name: url, label: Website address, widget: string }
+          - { name: whatsapp, label: "WhatsApp number (country code, digits only, e.g. 919876543210)", widget: string }
+          - { name: phone, label: Phone (as shown), widget: string }
+          - { name: email, label: Email, widget: string }
+          - { name: instagram, label: Instagram link, widget: string }
+          - { name: instagramHandle, label: Instagram handle, widget: string }
+          - { name: businessName, label: Legal / business name, widget: string }
+          - { name: city, label: City, widget: string }
+          - { name: shippingDays, label: Delivery time, widget: string }
+          - { name: freeShippingAbove, label: Free shipping above (₹), widget: number, value_type: int }
+          - { name: shippingFee, label: Shipping fee (₹), widget: number, value_type: int }
+
+  - name: pages
+    label: Pages & policies
+    folder: src/pages
+    create: false
+    extension: md
+    format: frontmatter
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: description, label: Google description, widget: text, required: false }
+      - { name: updated, label: Last updated, widget: string, required: false }
+      - { name: body, label: Content, widget: markdown }

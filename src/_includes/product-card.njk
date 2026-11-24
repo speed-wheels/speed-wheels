@@ -1,0 +1,10 @@
+<li class="card">
+  <a href="{{ p.url }}">
+    <div class="card-img">{% img p.data.image, p.data.title, "(min-width: 900px) 25vw, 50vw" %}
+      {% set off = p.data.price | discount(p.data.mrp) %}{% if off %}<span class="badge">{{ off }}% off</span>{% endif %}
+      {% if not p.data.inStock %}<span class="badge badge-out">Sold out</span>{% endif %}
+    </div>
+    <h3>{{ p.data.title }}</h3>
+    <p class="price">{{ p.data.price | inr }}{% if p.data.mrp > p.data.price %} <s>{{ p.data.mrp | inr }}</s>{% endif %}</p>
+  </a>
+</li>

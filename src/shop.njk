@@ -1,0 +1,14 @@
+---
+layout: base.njk
+title: Shop all display stands
+description: Browse 3D-printed display stands, wall racks and pedestals for 1:64 die-cast cars. Made in India, shipped across India.
+permalink: /shop/
+---
+<section class="wrap">
+  <h1>All display stands</h1>
+  <p class="lead">Every stand is 3D-printed to order and sized for 1:64 die-cast cars.</p>
+  <ul class="grid">{% asyncEach p in collections.products %}{% include "product-card.njk" %}{% endeach %}</ul>
+</section>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ItemList","itemListElement":[{% for p in collections.products %}{"@type":"ListItem","position":{{ loop.index }},"url":"{{ p.url | absUrl(site.url) }}"}{% if not loop.last %},{% endif %}{% endfor %}]}
+</script>

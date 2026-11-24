@@ -1,0 +1,38 @@
+---
+layout: base.njk
+---
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"OnlineStore","name":{{ site.name | json | safe }},"url":"{{ site.url }}/","description":{{ site.description | json | safe }},"logo":"{{ site.url }}/assets/logo.png","email":"{{ site.email }}","telephone":"{{ site.phone }}","sameAs":["{{ site.instagram }}"],"areaServed":"IN"}
+</script>
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Made in India · Printed to order</p>
+      <h1>Park your collection <em>in style.</em></h1>
+      <p class="lead">3D-printed display stands, wall racks and pedestals built for 1:64 die-cast cars. Stop keeping your best cars in a box.</p>
+      <div class="actions">
+        <a class="btn btn-pay" href="/shop/">Shop stands</a>
+        <a class="btn btn-ghost" href="https://wa.me/{{ site.whatsapp }}?text={{ ('Hi ' + site.name + ', I want a custom stand.') | urlencode }}" target="_blank" rel="noopener">Ask for a custom stand</a>
+      </div>
+    </div>
+    {% set hero = collections.products[1] or collections.products[0] %}
+    <a class="hero-img" href="{{ hero.url }}">{% img hero.data.image, hero.data.title, "(min-width: 900px) 45vw, 100vw", "", true %}</a>
+  </div>
+</section>
+<section class="wrap perks" aria-label="Why Speed Wheels">
+  <div><strong>Sized for 1:64</strong><span>Fits Hot Wheels, Matchbox, MiniGT and similar cars</span></div>
+  <div><strong>Ships across India</strong><span>Free shipping above {{ site.freeShippingAbove | inr }}</span></div>
+  <div><strong>Pay your way</strong><span>UPI, cards and netbanking, or order on WhatsApp</span></div>
+  <div><strong>Custom colours</strong><span>Ask us for your colour or a custom size</span></div>
+</section>
+<section class="wrap">
+  <div class="section-head"><h2>Best sellers</h2><a href="/shop/">View all →</a></div>
+  <ul class="grid">{% asyncEach p in collections.products | featured %}{% include "product-card.njk" %}{% endeach %}</ul>
+</section>
+<section class="wrap band">
+  <div>
+    <h2>Got a collection that needs a custom display?</h2>
+    <p>Tell us how many cars you have and where you want to put them. We'll design and print a stand to fit.</p>
+  </div>
+  <a class="btn btn-wa" href="https://wa.me/{{ site.whatsapp }}?text={{ ('Hi ' + site.name + ', I want a custom display for my collection.') | urlencode }}" target="_blank" rel="noopener">Chat on WhatsApp</a>
+</section>
