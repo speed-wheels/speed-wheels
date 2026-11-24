@@ -24,5 +24,7 @@ export async function render(data) {
     })
   );
   const cols = data.collections.shopCollections.map((c) => ({ slug: c.fileSlug, title: c.data.title, url: c.url }));
-  return JSON.stringify({ products, collections: cols, shipping: data.shipping, generated: new Date().toISOString() });
+  const st = data.site || {};
+  const store = { name: st.name, email: st.email, url: st.url, instagram: st.instagramHandle, business: st.businessName, address: st.pickupAddress || "", gstin: st.gstin || "" };
+  return JSON.stringify({ products, collections: cols, store, shipping: data.shipping, generated: new Date().toISOString() });
 }

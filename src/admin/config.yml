@@ -113,6 +113,8 @@ collections:
           - { name: instagramHandle, label: Instagram handle, widget: string }
           - { name: businessName, label: Legal / business name, widget: string }
           - { name: city, label: City, widget: string }
+          - { name: pickupAddress, label: "Your shipping-from address with PIN code and phone (printed on labels and packing slips)", widget: text, required: false }
+          - { name: gstin, label: "GSTIN (optional, printed on packing slips)", widget: string, required: false }
 
   - name: pages
     label: Pages & policies
