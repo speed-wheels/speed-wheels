@@ -1,12 +1,8 @@
-  {% asyncEach c in collections.shopCollections %}
-  {%- set items = collections.products | inCollection(c.fileSlug) %}
-  <div class="hcard">
-    <h2>{{ c.data.title }}</h2>
-    <a class="hcard-media" href="{{ c.url }}" aria-label="{{ c.data.title }}">
-      {%- asyncEach im in c.data.image | asList %}<span class="hcard-cover">{% img im, "", "300px" %}</span>{% endeach -%}
-      <span class="quad">{% asyncEach im in items | images(4) %}<span class="quad-cell">{% img im.src, "", "150px" %}</span>{% endeach %}</span>
-      <span class="hcard-soon"><b>{{ c.data.title }}</b>Coming soon</span>
-    </a>
-    <a class="hcard-link" href="{{ c.url }}">See more</a>
-  </div>
-  {% endeach %}
+{% asyncEach c in collections.shopCollections | stockedFirst(collections.products) %}
+{%- set n = (collections.products | inCollection(c.fileSlug)).length %}
+<li><a class="cat-tile" href="{{ c.url }}">
+  <span class="cat-img">{% asyncEach im in c | collectionCover(collections.products) %}{% img im, "", "200px" %}{% endeach %}<span class="cat-ph" aria-hidden="true"><svg viewBox="0 0 64 32" width="64" height="32"><path d="M4 22c0-3 2-5 6-6l8-6c3-2 6-3 10-3h10c4 0 7 2 10 5l4 4c5 1 8 3 8 6v3H4z" fill="currentColor"/><circle cx="16" cy="25" r="5" fill="#111318" stroke="currentColor" stroke-width="2"/><circle cx="48" cy="25" r="5" fill="#111318" stroke="currentColor" stroke-width="2"/></svg></span>{% if not n %}<span class="cat-soon">Coming soon</span>{% endif %}</span>
+  <span class="cat-name">{{ c.data.title }}</span>
+  <span class="cat-count">{{ n ~ " item" ~ ("" if n == 1 else "s") if n else "New drops soon" }}</span>
+</a></li>
+{% endeach %}

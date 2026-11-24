@@ -25,39 +25,31 @@ layout: base.njk
   <div class="slide-dots" role="tablist">{% for s in banners.slides %}<button type="button" data-dot="{{ loop.index0 }}" aria-label="Go to slide {{ loop.index }}"></button>{% endfor %}</div>
 </section>
 
-<section class="wrap home-cards" aria-label="Shop by collection">
-  {% include "collection-cards.njk" %}
-  <div class="hcard hcard-promo">
-    <h2>Free shipping above {{ shipping.freeAbove | inr }}</h2>
-    <p>Tracked delivery anywhere in India. Pay with UPI, cards, netbanking or wallets.</p>
-    <a class="btn btn-pay" href="/shop/">Shop all products</a>
-    <a class="hcard-link" href="/track/">Track an order</a>
-  </div>
-</section>
+<section class="wrap cats-box" aria-label="Shop by collection">
+  <div class="row-head"><h2>Shop by collection</h2><a href="/collections/">See all</a></div>
+  <ul class="cat-row">{% include "collection-cards.njk" %}</ul>
 </section>
 
-{% set rowTitle = "Best sellers" %}{% set rowLink = "/shop/" %}{% set rowItems = collections.products | featured %}
+<section class="wrap perks-strip" aria-label="Why shop with us">
+  <div><span aria-hidden="true">🚚</span><p><b>Free shipping</b> above {{ shipping.freeAbove | inr }}</p></div>
+  <div><span aria-hidden="true">🔒</span><p><b>Secure payment</b> UPI, cards, wallets</p></div>
+  <div><span aria-hidden="true">📦</span><p><b>Tracked delivery</b> across India</p></div>
+  <div><span aria-hidden="true">✔️</span><p><b>100% genuine</b> die-cast</p></div>
+</section>
+
+<section class="wrap row-box" aria-label="Best sellers">
+  <div class="row-head"><h2>Best sellers</h2><a href="/shop/">See all</a></div>
+  <ul class="pgrid home-grid">{% asyncEach p in collections.products | featured | head(10) %}{% include "product-card.njk" %}{% endeach %}</ul>
+</section>
+
+{% if collections.products.length > 8 %}
+{% set rowTitle = "Today's deals" %}{% set rowLink = "/shop/?sort=deals" %}{% set rowItems = collections.products | deals %}
 {% include "carousel.njk" %}
+{% endif %}
 
 <section class="wrap row-box" data-recent hidden aria-label="Recently viewed">
   <div class="row-head"><h2>Your recently viewed items</h2></div>
   <div class="carousel" data-carousel><button class="car-btn prev" type="button" aria-label="Scroll left" data-car="-1">‹</button><ul class="car-track" data-recent-track></ul><button class="car-btn next" type="button" aria-label="Scroll right" data-car="1">›</button></div>
-</section>
-
-{% set rowTitle = "Today's deals" %}{% set rowLink = "/shop/?sort=deals" %}{% set rowItems = collections.products | deals %}
-{% include "carousel.njk" %}
-
-{% asyncEach c in collections.shopCollections %}
-{%- set rowItems = collections.products | inCollection(c.fileSlug) %}
-{%- set rowTitle = "Top picks in " + c.data.title %}{% set rowLink = c.url %}
-{% include "carousel.njk" %}
-{% endeach %}
-
-<section class="wrap trust" aria-label="Why shop with us">
-  <div><b>100% genuine</b><span>Original die-cast from Hot Wheels, Majorette, Mini GT and more</span></div>
-  <div><b>Secure payments</b><span>Razorpay: UPI, cards, netbanking, wallets</span></div>
-  <div><b>Tracked shipping</b><span>{{ shipping.dispatchDays }} dispatch, live tracking</span></div>
-  <div><b>Easy help</b><span>Email or Instagram {{ site.instagramHandle }}</span></div>
 </section>
 
 <section class="wrap custom-band">

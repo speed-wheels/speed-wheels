@@ -180,7 +180,7 @@
     var ids = store.get(RECENT, []).filter(function (x) { return !pdp || x !== pdp.dataset.product; });
     if (ids.length) catalog().then(function (cat) {
       var by = byId(cat), items = ids.map(function (i) { return by[i]; }).filter(Boolean);
-      if (!items.length) return;
+      if (items.length < 2) return;
       recentBoxes.forEach(function (box) {
         $("[data-recent-track]", box).innerHTML = items.map(function (p) {
           var o = off(p);

@@ -32,6 +32,16 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("asList", (v) => (v ? [v] : []));
   eleventyConfig.addFilter("images", (a, n) => (a || []).slice(0, n).map((p) => ({ src: p.data.image, alt: p.data.title })));
   eleventyConfig.addFilter("allImages", (img, gallery) => [img, ...((gallery || []).map((g) => (typeof g === "string" ? g : g && g.photo)))].filter(Boolean));
+  // cover photo for a collection: its own image, else its first product's photo
+  eleventyConfig.addFilter("collectionCover", (c, products) => {
+    if (c.data.image) return [c.data.image];
+    const p = products.find((x) => x.data.collection === c.fileSlug);
+    return p ? [p.data.image] : [];
+  });
+  eleventyConfig.addFilter("stockedFirst", (cols, products) => {
+    const has = (c) => products.some((p) => p.data.collection === c.fileSlug);
+    return [...cols].sort((a, b) => has(b) - has(a));
+  });
   eleventyConfig.addFilter("year", () => new Date().getFullYear());
 
   // Responsive WebP images from any uploaded photo (jpg/png/webp)
