@@ -7,12 +7,12 @@ layout: base.njk
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-      <p class="eyebrow">Made in India · Printed to order</p>
-      <h1>Park your collection <em>in style.</em></h1>
-      <p class="lead">3D-printed display stands, wall racks and pedestals built for 1:64 die-cast cars. Stop keeping your best cars in a box.</p>
+      <p class="eyebrow">For die-cast collectors across India</p>
+      <h1>Collect. Display. <em>Repeat.</em></h1>
+      <p class="lead">Hot Wheels, Majorette and Mini GT die-cast cars, plus our own 3D-printed stands to show them off.</p>
       <div class="actions">
-        <a class="btn btn-pay" href="/shop/">Shop stands</a>
-        <a class="btn btn-ghost" href="/contact/">Ask for a custom stand</a>
+        <a class="btn btn-pay" href="/shop/">Shop now</a>
+        <a class="btn btn-ghost" href="/collections/">Browse collections</a>
       </div>
     </div>
     {% set hero = collections.products[1] or collections.products[0] %}
@@ -20,10 +20,14 @@ layout: base.njk
   </div>
 </section>
 <section class="wrap perks" aria-label="Why Speed Wheels">
-  <div><strong>Sized for 1:64</strong><span>Fits Hot Wheels, Matchbox, MiniGT and similar cars</span></div>
-  <div><strong>Ships across India</strong><span>Free shipping above {{ site.freeShippingAbove | inr }}</span></div>
+  <div><strong>Genuine die-cast</strong><span>Hot Wheels, Majorette, Mini GT and more</span></div>
+  <div><strong>Ships across India</strong><span>{% if shipping.freeAbove %}Free shipping above {{ shipping.freeAbove | inr }}{% else %}Tracked delivery to your door{% endif %}</span></div>
   <div><strong>Pay your way</strong><span>UPI, cards, netbanking and wallets via Razorpay</span></div>
-  <div><strong>Custom colours</strong><span>Ask us for your colour or a custom size</span></div>
+  <div><strong>Track your order</strong><span>Live status and courier tracking</span></div>
+</section>
+<section class="wrap">
+  <div class="section-head"><h2>Shop by collection</h2><a href="/collections/">All collections →</a></div>
+  {% include "collection-tiles.njk" %}
 </section>
 <section class="wrap">
   <div class="section-head"><h2>Best sellers</h2><a href="/shop/">View all →</a></div>

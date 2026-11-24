@@ -1,0 +1,15 @@
+---
+layout: base.njk
+title: Track your order
+description: Check the status and courier tracking of your Speed Wheels order.
+permalink: /track/
+---
+<section class="wrap narrow">
+  <h1>Track your order</h1>
+  <form id="track-form" class="order track-form">
+    <label>Order number<input name="order" required placeholder="e.g. SWAB12CD3XY" autocapitalize="characters"></label>
+    <label>Mobile number or email used for the order<input name="contact" required></label>
+    <button class="btn btn-pay btn-block" type="submit">Track order</button>
+  </form>
+  <div id="track-result" aria-live="polite"></div>
+</section>

@@ -1,16 +1,16 @@
 ---
 title: About Speed Wheels
-description: Speed Wheels is an Indian shop making 3D-printed display stands for die-cast car collectors.
+description: Speed Wheels is an Indian store for die-cast car collectors – Hot Wheels, Majorette, Mini GT and 3D-printed display stands.
 ---
-Speed Wheels started with a simple problem: a growing pile of 1:64 cars and nowhere good to show them off. Boxes hide them, shelves get crowded, and imported display cases cost a fortune.
+Speed Wheels is run by collectors, for collectors. We started with a simple problem: a growing pile of 1:64 cars and nowhere good to find them or show them off.
 
-So we started designing and 3D-printing our own stands, sized exactly for die-cast cars. Every stand is printed to order in India, checked by hand and packed carefully before it ships.
+So we built a store for both. We stock die-cast cars from **Hot Wheels**, **Majorette** and **Mini GT**, and we design and 3D-print our own **display stands**, sized exactly for 1:64 cars and printed in India.
 
-**What we make**
+**What you'll find here**
 
-- Stepped display stands for shelves and desks
-- Wall-mounted garage racks
-- Pedestals for your hero cars
-- Custom stands in your colour and size
+- Die-cast cars from the brands collectors love
+- Stepped display stands, wall racks and pedestals
+- Careful packing, so cards and blisters arrive in good shape
+- Tracked shipping across India
 
-Follow our builds and new designs on [Instagram]({{ site.instagram }}) or [email us]({{ "mailto:" + site.email }}) for a custom piece.
+Follow new arrivals on [Instagram]({{ site.instagram }}) or [email us]({{ "mailto:" + site.email }}) with any questions.

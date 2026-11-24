@@ -12,7 +12,7 @@ dimensions: "30 × 18 × 14 cm"
 material: PLA+ (matte finish)
 colours: [Black, Grey, Orange]
 inStock: true
-razorpayLink: ""
+collection: 3d-printed-stands
 featured: true
 order: 1
 ---

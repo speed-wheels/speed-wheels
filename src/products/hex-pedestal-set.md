@@ -12,7 +12,7 @@ dimensions: "Each 7 × 5 × 4 cm"
 material: PLA+ (matte finish)
 colours: [Black with orange stripe, Black with red stripe, Grey with blue stripe]
 inStock: true
-razorpayLink: ""
+collection: 3d-printed-stands
 featured: true
 order: 3
 ---

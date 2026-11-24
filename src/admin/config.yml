@@ -1,5 +1,5 @@
-# Content editor for Speed Wheels. Edits are saved as commits to GitHub,
-# then Cloudflare Pages rebuilds the site automatically (about 1 minute).
+# Content editor for Speed Wheels (Sveltia CMS, Decap-compatible).
+# Saving commits to GitHub; Cloudflare Pages rebuilds the site automatically (about 1 minute).
 backend:
   name: github
   repo: speed-wheels/speed-wheels
@@ -19,28 +19,70 @@ collections:
     slug: "{{slug}}"
     summary: "{{title}} · ₹{{price}}"
     sortable_fields: [order, title, price]
+    view_groups: [{ label: Collection, field: collection }]
     fields:
       - { name: title, label: Product name, widget: string }
-      - { name: price, label: Selling price (₹), widget: number, value_type: int }
-      - { name: mrp, label: MRP (₹, shown crossed out; leave same as price for no discount), widget: number, value_type: int, required: false }
-      - { name: image, label: Main photo, widget: image, hint: "Square photos look best. Any size; the site makes fast WebP versions automatically." }
+      - { name: collection, label: Collection, widget: relation, collection: collections, value_field: "{{slug}}", search_fields: [title], display_fields: [title] }
+      - { name: price, label: Selling price (₹), widget: number, value_type: int, min: 1 }
+      - { name: mrp, label: "MRP (₹) – shown crossed out. Leave empty for no discount", widget: number, value_type: int, required: false }
+      - { name: inStock, label: In stock (turn off when sold out), widget: boolean, default: true }
+      - { name: image, label: Main photo, widget: image, hint: "Square photos look best. Any size is fine; the site makes fast WebP versions automatically." }
       - { name: gallery, label: More photos, widget: list, field: { name: photo, label: Photo, widget: image }, required: false }
-      - { name: summary, label: Short description (1–2 lines, used on Google too), widget: text }
-      - { name: body, label: Full description, widget: markdown }
-      - { name: capacity, label: Holds, widget: string, hint: "e.g. 16 cars" }
-      - { name: scale, label: Car scale, widget: string, default: "1:64" }
-      - { name: dimensions, label: Size, widget: string, hint: "e.g. 30 × 18 × 14 cm" }
-      - { name: material, label: Material, widget: string, default: "PLA+ (matte finish)" }
-      - { name: colours, label: Colour options, widget: list, required: false }
-      - { name: inStock, label: In stock, widget: boolean, default: true }
-      - { name: razorpayLink, label: Razorpay payment link (optional), widget: string, required: false, hint: "Paste a Razorpay Payment Link / Payment Page URL to show a 'Pay online' button." }
+      - { name: summary, label: Short description (1–2 lines, also used by Google), widget: text }
+      - { name: body, label: Full description, widget: markdown, required: false }
+      - { name: colours, label: "Colour / variant options (customer picks one)", widget: list, required: false }
+      - { name: brand, label: Brand (e.g. Hot Wheels, Mini GT), widget: string, required: false }
+      - { name: scale, label: Scale, widget: string, required: false, default: "1:64" }
+      - { name: capacity, label: "Holds (for stands, e.g. 16 cars)", widget: string, required: false }
+      - { name: dimensions, label: Size, widget: string, required: false }
+      - { name: material, label: Material, widget: string, required: false }
       - { name: sku, label: SKU / product code, widget: string, required: false }
-      - { name: featured, label: Show on home page, widget: boolean, default: false }
+      - { name: featured, label: Show in Best sellers on home page, widget: boolean, default: false }
       - { name: order, label: Sort order (lower shows first), widget: number, value_type: int, default: 10 }
 
+  - name: collections
+    label: Collections
+    label_singular: Collection
+    folder: src/collections
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    sortable_fields: [order, title]
+    fields:
+      - { name: title, label: Collection name, widget: string }
+      - { name: description, label: Short description, widget: text, required: false }
+      - { name: image, label: Cover photo (optional), widget: image, required: false }
+      - { name: order, label: Sort order (lower shows first), widget: number, value_type: int, default: 10 }
+      - { name: body, label: Extra text on the collection page (optional), widget: markdown, required: false }
+
   - name: settings
-    label: Shop settings
+    label: Settings
     files:
+      - name: shipping
+        label: Shipping settings
+        file: src/_data/shipping.json
+        format: json
+        fields:
+          - { name: defaultRate, label: "Shipping charge (₹) – used for all states not listed in a zone below", widget: number, value_type: int, min: 0 }
+          - { name: freeAbove, label: "Free shipping when order is ₹ or more (0 = never free)", widget: number, value_type: int, min: 0 }
+          - { name: dispatchDays, label: "Dispatch time (e.g. 1–3 working days)", widget: string }
+          - { name: deliveryDays, label: "Delivery time after dispatch (e.g. 3–7 working days)", widget: string }
+          - name: zones
+            label: Shipping zones (special rates for some states)
+            label_singular: Zone
+            widget: list
+            required: false
+            summary: "{{name}} · ₹{{rate}}"
+            fields:
+              - { name: name, label: "Zone name (e.g. Local, North East)", widget: string }
+              - { name: rate, label: Shipping charge for this zone (₹), widget: number, value_type: int, min: 0 }
+              - { name: freeAbove, label: "Free shipping above ₹ for this zone (leave empty to use the main setting)", widget: number, value_type: int, required: false }
+              - name: states
+                label: States in this zone
+                widget: select
+                multiple: true
+                options: ["Andaman and Nicobar Islands","Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chandigarh","Chhattisgarh","Dadra and Nagar Haveli and Daman and Diu","Delhi","Goa","Gujarat","Haryana","Himachal Pradesh","Jammu and Kashmir","Jharkhand","Karnataka","Kerala","Ladakh","Lakshadweep","Madhya Pradesh","Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland","Odisha","Puducherry","Punjab","Rajasthan","Sikkim","Tamil Nadu","Telangana","Tripura","Uttar Pradesh","Uttarakhand","West Bengal"]
       - name: site
         label: Shop details
         file: src/_data/site.json
@@ -55,9 +97,6 @@ collections:
           - { name: instagramHandle, label: Instagram handle, widget: string }
           - { name: businessName, label: Legal / business name, widget: string }
           - { name: city, label: City, widget: string }
-          - { name: shippingDays, label: Delivery time, widget: string }
-          - { name: freeShippingAbove, label: Free shipping above (₹), widget: number, value_type: int }
-          - { name: shippingFee, label: Shipping fee (₹), widget: number, value_type: int }
 
   - name: pages
     label: Pages & policies

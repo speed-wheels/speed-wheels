@@ -28,8 +28,11 @@
     <a class="brand" href="/" aria-label="{{ site.name }} home">{% include "logo.njk" %}<span>SPEED<b>WHEELS</b></span></a>
     <nav aria-label="Main">
       <a href="/shop/" {% if page.url.startsWith('/shop') or page.url.startsWith('/products') %}aria-current="page"{% endif %}>Shop</a>
-      <a href="/about/" {% if page.url == '/about/' %}aria-current="page"{% endif %}>About</a>
-      <a href="/contact/" {% if page.url == '/contact/' %}aria-current="page"{% endif %}>Contact</a>
+      <a href="/collections/" {% if page.url.startsWith('/collections') %}aria-current="page"{% endif %}>Collections</a>
+      <a href="/cart/" class="cart-link" aria-label="Cart" {% if page.url == '/cart/' %}aria-current="page"{% endif %}>
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M3 4h2l2.4 10.2a1 1 0 0 0 1 .8h8.9a1 1 0 0 0 1-.8L20 8H6.2M9 20h.01M17 20h.01"/></svg>
+        <span class="cart-count" data-cart-count hidden>0</span>
+      </a>
     </nav>
   </div>
   <div class="chequer" aria-hidden="true"></div>
@@ -42,16 +45,18 @@
   <div class="wrap footer-grid">
     <div>
       <a class="brand" href="/">{% include "logo.njk" %}<span>SPEED<b>WHEELS</b></span></a>
-      <p>{{ site.tagline }}. Printed to order in India.</p>
+      <p>{{ site.tagline }}. Shipped across India.</p>
       <p><a href="{{ site.instagram }}" rel="noopener" target="_blank">Instagram {{ site.instagramHandle }}</a></p>
     </div>
     <div>
       <h2>Shop</h2>
-      <ul><li><a href="/shop/">All stands</a></li>{% for p in collections.products | head(4) %}<li><a href="{{ p.url }}">{{ p.data.title }}</a></li>{% endfor %}</ul>
+      <ul><li><a href="/shop/">All products</a></li>{% for c in collections.shopCollections %}<li><a href="{{ c.url }}">{{ c.data.title }}</a></li>{% endfor %}<li><a href="/cart/">Cart</a></li></ul>
     </div>
     <div>
       <h2>Help</h2>
       <ul>
+        <li><a href="/track/">Track your order</a></li>
+        <li><a href="/about/">About us</a></li>
         <li><a href="/contact/">Contact us</a></li>
         <li><a href="/shipping/">Shipping policy</a></li>
         <li><a href="/returns/">Returns &amp; refunds</a></li>
@@ -60,7 +65,8 @@
       </ul>
     </div>
   </div>
-  <p class="wrap fine">© {{ "now" | year }} {{ site.name }}. Speed Wheels is an independent shop and is not affiliated with Mattel, Hot Wheels or any toy brand. Brand names are used only to describe compatible car sizes.</p>
+  <p class="wrap fine">© {{ "now" | year }} {{ site.name }}. Speed Wheels is an independent retailer. Hot Wheels, Majorette, Mini GT and other brand names are trademarks of their respective owners; we are not affiliated with or endorsed by them.</p>
 </footer>
+<script src="/assets/shop.js" defer></script>
 </body>
 </html>

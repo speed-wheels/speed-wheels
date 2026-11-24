@@ -12,6 +12,10 @@ export default function (eleventyConfig) {
     api.getFilteredByGlob("src/products/*.md").sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
   );
 
+  eleventyConfig.addCollection("shopCollections", (api) =>
+    api.getFilteredByGlob("src/collections/*.md").sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
+  );
+
   // ₹1,499 style price
   eleventyConfig.addFilter("inr", (n) => "₹" + Number(n).toLocaleString("en-IN"));
   eleventyConfig.addFilter("absUrl", (p, base) => new URL(p, base).href);
@@ -22,6 +26,8 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("head", (a, n) => (a || []).slice(0, n));
   eleventyConfig.addFilter("featured", (a) => a.filter((p) => p.data.featured));
   eleventyConfig.addFilter("except", (a, url) => a.filter((p) => p.url !== url));
+  eleventyConfig.addFilter("inCollection", (a, slug) => a.filter((p) => p.data.collection === slug));
+  eleventyConfig.addFilter("findBySlug", (a, slug) => (a || []).find((c) => c.fileSlug === slug));
   eleventyConfig.addFilter("year", () => new Date().getFullYear());
 
   // Responsive WebP images from any uploaded photo (jpg/png/webp)

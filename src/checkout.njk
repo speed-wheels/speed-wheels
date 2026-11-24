@@ -1,0 +1,35 @@
+---
+layout: base.njk
+title: Checkout
+permalink: /checkout/
+noindex: true
+eleventyExcludeFromCollections: true
+---
+<section class="wrap">
+  <h1>Checkout</h1>
+  <form id="checkout" class="checkout" novalidate>
+    <div class="co-form">
+      <h2>Delivery details</h2>
+      <label>Full name<input name="name" autocomplete="name" required minlength="2" maxlength="80"></label>
+      <div class="two">
+        <label>Mobile number<input name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" required pattern="[6-9][0-9]{9}" maxlength="10" placeholder="10-digit mobile"></label>
+        <label>Email<input name="email" type="email" autocomplete="email" required maxlength="120"></label>
+      </div>
+      <label>Address (house no, street, area, landmark)<textarea name="address" autocomplete="street-address" required minlength="8" maxlength="300" rows="3"></textarea></label>
+      <div class="three">
+        <label>City<input name="city" autocomplete="address-level2" required maxlength="60"></label>
+        <label>State<select name="state" autocomplete="address-level1" required><option value="">Choose…</option>{% for s in states %}<option>{{ s }}</option>{% endfor %}</select></label>
+        <label>PIN code<input name="pincode" inputmode="numeric" autocomplete="postal-code" required pattern="[1-9][0-9]{5}" maxlength="6"></label>
+      </div>
+      <p class="muted small">We'll email your order confirmation and tracking details. By paying you agree to our <a href="/terms/">Terms</a>, <a href="/shipping/">Shipping</a> and <a href="/returns/">Returns</a> policies.</p>
+    </div>
+    <aside class="co-side">
+      <h2>Order summary</h2>
+      <div id="co-summary" class="summary"><p class="muted">Loading…</p></div>
+      <p id="co-msg" class="error" role="alert" hidden></p>
+      <button id="co-pay" class="btn btn-pay btn-block" type="submit">Pay securely</button>
+      <p class="muted small center">🔒 Payments secured by Razorpay · UPI · Cards · Netbanking · Wallets</p>
+      <a class="small" href="/cart/">← Back to cart</a>
+    </aside>
+  </form>
+</section>

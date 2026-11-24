@@ -1,0 +1,14 @@
+---
+layout: base.njk
+title: Order confirmed
+permalink: /order-success/
+noindex: true
+eleventyExcludeFromCollections: true
+---
+<section class="wrap narrow center-block">
+  <div class="big-tick" aria-hidden="true">✓</div>
+  <h1>Thank you! Your order is confirmed.</h1>
+  <p class="lead">Order number: <strong id="order-ok"></strong></p>
+  <p>We've emailed you a confirmation. We'll email you again with tracking details when your order ships (usually within {{ shipping.dispatchDays }}).</p>
+  <div class="actions center"><a class="btn btn-pay" id="order-ok-track" href="/track/">Track your order</a><a class="btn btn-ghost" href="/shop/">Continue shopping</a></div>
+</section>

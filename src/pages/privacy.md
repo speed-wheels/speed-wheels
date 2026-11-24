@@ -3,13 +3,13 @@ title: Privacy policy
 description: How Speed Wheels collects, uses and protects your personal information.
 updated: 24 November 2026
 ---
-This policy explains how {{ site.businessName }} ("Speed Wheels", "we") handles your personal information when you use {{ site.url }} or order from us.
+This policy explains how {{ site.businessName }} ("Speed Wheels", "we") handles your personal information when you use {{ site.url }} or order from us. Your cart is stored only in your own browser until you check out.
 
 **What we collect.** When you order, we collect your name, phone number, delivery address, email (if given) and the details of your order. We do not collect or store your card, UPI or bank details. Payments are handled by Razorpay, which has its own [privacy policy](https://razorpay.com/privacy/).
 
 **How we use it.** Only to process and deliver your order, contact you about it, handle returns and refunds, and meet legal and tax requirements. With your permission, we may tell you about new products. You can opt out any time.
 
-**Who we share it with.** Courier partners (to deliver your order), Razorpay (to process payment) and Instagram (when you message us there). We never sell your data.
+**Who we share it with.** Courier partners (to deliver your order), Razorpay (to process payment), Cloudflare (which hosts this website and stores order records), our email provider (to send order and shipping emails) and Instagram (when you message us there). We never sell your data.
 
 **Cookies and analytics.** This site does not use advertising cookies. We may use privacy-friendly analytics to count visits.
 

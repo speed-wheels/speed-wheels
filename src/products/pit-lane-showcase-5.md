@@ -12,7 +12,7 @@ dimensions: "28 × 14 × 3 cm"
 material: PLA+ with painted lane markings
 colours: [Asphalt grey]
 inStock: true
-razorpayLink: ""
+collection: 3d-printed-stands
 featured: true
 order: 4
 ---

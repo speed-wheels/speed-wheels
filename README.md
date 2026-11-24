@@ -1,28 +1,31 @@
 # Speed Wheels website (speedwheels.in)
 
-Static store built with Eleventy. No server, no monthly cost. Hosted on Cloudflare Pages.
+Online store built with Eleventy and hosted free on Cloudflare Pages. Cart and checkout run in the
+browser; payments go through Razorpay; orders are saved in a free Cloudflare D1 database.
 
-## Edit products
-- **Easiest:** open `https://speedwheels.in/admin/`, sign in with GitHub, edit or add products (works on a phone).
-- **Or ask Claude:** each product is one file in `src/products/` (e.g. `tiered-stand-16.md`).
-- Shop details (email, Instagram, shipping fee) live in `src/_data/site.json`.
-- Product photos go in `src/images/products/`. Any JPG/PNG is fine; the build makes fast WebP versions automatically.
+## Edit products, collections and shipping
+- Open `https://speedwheels.in/admin/` and sign in with a GitHub access token (works on a phone).
+- **Products:** pick a collection, price, photo, stock. **Collections:** add new ones any time.
+- **Settings → Shipping settings:** flat rate, free-shipping amount, delivery times, state zones.
+- Photos: any JPG/PNG; the build makes fast WebP versions automatically.
+
+## Orders
+- `https://speedwheels.in/admin/orders/` (password = `ADMIN_PASSWORD` secret).
+- Mark packed / shipped (courier + tracking number) / delivered; the customer can be emailed.
+- Customers track at `https://speedwheels.in/track/` with order ID + phone or email.
+
+## Cloudflare Pages settings
+- Build command `npm run build` · Output `_site` · Variable `NODE_VERSION` = `22`
+- D1 binding: variable name `DB` → database `speed-wheels-orders` (table is created automatically)
+- Secrets (Settings → Variables and Secrets, type "Secret"):
+  - `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET` (Razorpay → Account & Settings → API Keys)
+  - `ADMIN_PASSWORD` (8+ characters, for the orders screen)
+  - `STORE_EMAIL` = `speedwheelsstore@gmail.com`
+  - Optional `RESEND_API_KEY` (customer emails; verify speedwheels.in in Resend), `EMAIL_FROM`
+  - Optional `RAZORPAY_WEBHOOK_SECRET` (webhook URL `https://speedwheels.in/api/razorpay-webhook`,
+    events `payment.captured`, `order.paid`)
 
 ## Run locally
     npm install
-    npm start        # preview at http://localhost:8080
-    npm run build    # output in _site/
-
-## Cloudflare Pages settings
-- Framework preset: None · Build command: `npm run build` · Output directory: `_site`
-- Environment variable: `NODE_VERSION` = `22`
-
-## Admin sign-in
-The admin uses Sveltia CMS (a faster drop-in for Decap CMS, same config). Set `repo:` in
-`src/admin/config.yml` to your GitHub repo, then sign in with a GitHub personal access token
-(fine-grained, access to this one repo, "Contents: read and write").
-
-## Before going live
-- Replace placeholders in `src/_data/site.json` (email, Instagram, city, business name).
-- Replace the sample products and photos.
-- Paste Razorpay Payment Links into each product's `razorpayLink` to show a "Pay online" button.
+    npm run build
+    npx wrangler pages dev _site --d1 DB=local-orders   # with a .dev.vars file of test secrets
