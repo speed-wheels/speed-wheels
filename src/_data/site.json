@@ -1,13 +1,13 @@
 {
   "name": "Speed Wheels",
   "tagline": "Die-cast cars and display stands for collectors",
-  "url": "https://speedwheels.in",
   "description": "Speed Wheels sells Hot Wheels, Majorette and Mini GT die-cast cars plus 3D-printed display stands made in India. Shipped across India.",
+  "url": "https://speedwheels.in",
   "email": "speedwheelsstore@gmail.com",
   "instagram": "https://www.instagram.com/speedwheels.in/",
   "instagramHandle": "@speedwheels.in",
-  "city": "Your City, India",
   "businessName": "Speed Wheels (owner: Veda Kumar)",
-  "pickupAddress": "",
+  "city": "Your City, India",
+  "pickupAddress": "\nT C Palya main road, ramamurthy nagar, bangalore 560016",
   "gstin": ""
 }
